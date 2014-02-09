@@ -1,8 +1,14 @@
 package pw.h3o.jdokuwiki.model.requests;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.xmlrpc.XmlRpcException;
+
+import pw.h3o.jdokuwiki.model.response.DokuWikiResponseException;
 import pw.h3o.jdokuwiki.model.response.SetLocksResponse;
+import pw.h3o.jdokuwiki.net.DokuWikiClient;
 
 public class SetLocks extends DokuWikiXmlRpcRequest<SetLocksResponse> {
 
@@ -11,11 +17,16 @@ public class SetLocks extends DokuWikiXmlRpcRequest<SetLocksResponse> {
 
 	public SetLocks() {
 		super("dokuwiki.setLocks");
+		lockIds = new ArrayList<String>();
+		unlockIds = new ArrayList<String>();
 	}
 
 	@Override
 	public Object[] getParameters() {
-		return null;
+		HashMap<String, List<String>> parameters = new HashMap<String, List<String>>();
+		parameters.put("locked", lockIds);
+		parameters.put("unlocked", unlockIds);
+		return new Object[] { parameters };
 	}
 
 	public List<String> getLockIds() {
@@ -42,4 +53,14 @@ public class SetLocks extends DokuWikiXmlRpcRequest<SetLocksResponse> {
 		unlockIds.add(unlockId);
 	}
 
+	@Override
+	public SetLocksResponse execute(DokuWikiClient client) throws XmlRpcException {
+		SetLocksResponse response = new SetLocksResponse();
+		try {
+			response.init(super.execute(client));
+		} catch (DokuWikiResponseException e) {
+			System.err.println(e.getMessage());
+		}
+		return response;
+	}
 }
