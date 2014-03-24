@@ -24,8 +24,8 @@ public class SetLocks extends DokuWikiXmlRpcRequest<SetLocksResponse> {
 	@Override
 	public Object[] getParameters() {
 		HashMap<String, List<String>> parameters = new HashMap<String, List<String>>();
-		parameters.put("locked", lockIds);
-		parameters.put("unlocked", unlockIds);
+		parameters.put("lock", lockIds);
+		parameters.put("unlock", unlockIds);
 		return new Object[] { parameters };
 	}
 

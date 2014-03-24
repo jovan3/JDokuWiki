@@ -75,7 +75,8 @@ public class SetLocksResponse extends DokuWikiXmlRpcResponse {
 		}
 	}
 
-	private ArrayList<String> getIdsForLockType(HashMap<String, Object[]> pagesObjects, String lockType) {
+	private ArrayList<String> getIdsForLockType(
+			HashMap<String, Object[]> pagesObjects, String lockType) {
 		Object[] objArray = (Object[]) pagesObjects.get(lockType);
 		return getStringList(objArray);
 	}
@@ -92,5 +93,16 @@ public class SetLocksResponse extends DokuWikiXmlRpcResponse {
 		}
 
 		return list;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("locked: ").append(locked.size()).append("\n");
+		builder.append("lock failed: ").append(lockFailed.size()).append("\n");
+		builder.append("unlocked: ").append(unlocked.size()).append("\n");
+		builder.append("unlock failed: ").append(unlockFailed.size())
+				.append("\n");
+		return builder.toString();
 	}
 }
