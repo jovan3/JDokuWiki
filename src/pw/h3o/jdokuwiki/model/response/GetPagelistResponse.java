@@ -14,47 +14,6 @@ public class GetPagelistResponse extends DokuWikiXmlRpcResponse {
 
 	private List<Page> pages = new ArrayList<Page>();
 
-	public static class Page {
-
-		private String id;
-		private long rev;
-		private long size;
-		private Date modifiedTime;
-
-		public String getId() {
-			return id;
-		}
-
-		public void setId(String id) {
-			this.id = id;
-		}
-
-		public long getRev() {
-			return rev;
-		}
-
-		public void setRev(long rev) {
-			this.rev = rev;
-		}
-
-		public Date getModifiedTime() {
-			return modifiedTime;
-		}
-
-		public void setModifiedTime(Date modifiedTime) {
-			this.modifiedTime = modifiedTime;
-		}
-
-		public long getSize() {
-			return size;
-		}
-
-		public void setSize(long size) {
-			this.size = size;
-		}
-
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public void init(Object responseObject) throws DokuWikiResponseException {
@@ -69,7 +28,8 @@ public class GetPagelistResponse extends DokuWikiXmlRpcResponse {
 			HashMap<String, Object> pageProperties = ((HashMap<String, Object>) object);
 			Page page = new Page();
 			page.setId((String) pageProperties.get(KEY_ID));
-			page.setModifiedTime(new Date((Long) Long.parseLong(pageProperties.get(KEY_MODIFIED).toString()) * 1000));
+			page.setModifiedTime(new Date((Long) Long.parseLong(pageProperties
+					.get(KEY_MODIFIED).toString()) * 1000));
 			page.setRev((Integer) pageProperties.get(KEY_REV));
 			page.setSize((Integer) pageProperties.get(KEY_SIZE));
 
@@ -83,7 +43,8 @@ public class GetPagelistResponse extends DokuWikiXmlRpcResponse {
 
 	@Override
 	public String toString() {
-		StringBuilder toStringBuilder = new StringBuilder("pages: " + pages.size());
+		StringBuilder toStringBuilder = new StringBuilder("pages: "
+				+ pages.size());
 		toStringBuilder.append('\n');
 
 		for (Page page : pages) {
